@@ -1,0 +1,134 @@
+#include<iostream>
+#include<cstdlib>
+#include<cstring>
+using namespace std;
+struct dic 
+{
+    string word; string meaning;
+    int chain;
+};
+class Hash 
+{
+    public:
+    int sum,n,i,a,location=-1,c,x;
+    dic d[10];
+    string w; string m;
+    Hash()
+    {
+        for (int i=0; i<10; i++)
+        {
+            d[i].word=" ";
+            d[i].meaning=" ";
+            d[i].chain=-1;
+        }
+    }
+    void insert();
+    void display();
+    void search();
+    void del();
+    
+};
+void Hash:: insert()
+{
+    cout<<"Enter the number ";cin>>n;
+    for (int i=0; i<n; i++)
+    {
+        cout<<"Enter the word ";cin>>w;
+        cout<<"Enter the meaning ";cin>>m;
+        sum=0; 
+        for(int i=0; i<w.length(); i++)
+        {
+            sum=sum+w[i];
+        }
+        x=sum%10;
+        c=x;
+        while(1)
+        {
+            if (d[x].word==" ")
+            {
+                d[x].word=w;
+                d[x].meaning=m;
+                if (c!=x)
+                {
+                    d[c].chain=x;
+                }
+                break;
+            }
+            else
+            x=(x+1)%10;
+            
+            if (c==x)
+            {
+                cout<<"\nhash table is full";
+                break;
+            }
+        }
+    }
+}
+void Hash:: display()
+{
+    for (int i=0; i<10; i++ )
+    {
+        cout<<"\n"<<"Word: "<<d[i].word<<" "<<"Meaning: "<<d[i].meaning<<" "<<d[i].chain;
+    }
+}
+void Hash:: search()
+{
+    cout<<"\nEnter the word you want to search ";
+    cin>>w;
+    sum=0;
+    for(int i=0; i<w.length(); i++)
+    {
+        sum=sum+w[i];
+    }
+    x=sum%10;
+    c=x;
+    while(1)
+    {
+       if (d[x].word==w)
+       {
+           cout<<"Word Found ";
+           break;
+       }
+       x=(x+1)%10;
+       if (c==x)
+       {
+           cout<<"\nWord not found ";
+           break;
+       }
+    }
+}
+void Hash:: del()
+{
+    cout<<"Enter the word to be deleted ";cin>>w;
+    sum=0;
+    for(int i=0; i<w.length(); i++)
+    {
+        sum=sum+w[i];
+    }
+    x=sum%10;
+    c=x;
+    while(1)
+    {
+       if (d[x].word==w)
+       {
+           cout<<"deleted successfully";
+           d[x].word=" "; d[x].meaning=" ";break;
+       }
+       x=(x+1)%10;
+       if (c==x)
+       {
+           cout<<"Word not found ";break;
+       }
+    }
+}
+
+int main()
+{
+    Hash h;
+    h.insert();
+    h.display();
+    h.search();
+    h.del();
+    return 0;
+}
